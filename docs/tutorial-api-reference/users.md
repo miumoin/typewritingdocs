@@ -1,43 +1,65 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # Users
 
-Add **Markdown or React** files to `src/pages` to create a **standalone page**:
+API references for **Users** :
 
-- `src/pages/index.js` → `localhost:3000/`
-- `src/pages/foo.md` → `localhost:3000/foo`
-- `src/pages/foo/bar.js` → `localhost:3000/foo/bar`
+User belongs a `System` identified with access key and system info by `X-Vuedoo-Domain` & `X-Vudeoo-Access-Key` header.
 
-## Create your first React Page
+```
+Typewriting API
+    System1
+        User1
+        User2
+        ..
+    System2
+        ..
+    ..
+```
 
-Create a file at `src/pages/my-react-page.js`:
+## Create a new User
 
-```jsx title="src/pages/my-react-page.js"
-import React from 'react';
-import Layout from '@theme/Layout';
+A System that has a unique subdomain — it holds all assets created under that scope.
 
-export default function MyReactPage() {
-  return (
-    <Layout>
-      <h1>My React page</h1>
-      <p>This is a React page</p>
-    </Layout>
-  );
+```
+POST /users/new
+X-Vuedoo-Domain: domain
+X-Vuedoo-Access-key: 
+
+{
+  "name": "John",
+  "email": "john@example.com"
+  "password": "yourpassword"
 }
 ```
 
-A new page is now available at [http://localhost:3000/my-react-page](http://localhost:3000/my-react-page).
+A new user is added to an existing or a new system.
 
-## Create your first Markdown Page
+# User Profile Update
 
-Create a file at `src/pages/my-markdown-page.md`:
+Updates user information based on provided key-value pair.
 
-```mdx title="src/pages/my-markdown-page.md"
-# My Markdown page
+## Parameters
+- `key` (string): The field to update (e.g., 'email', 'name', 'password')
+- `value` (any): The new value to set for the specified field
 
-This is a Markdown page
+## Returns
+- Promise that resolves when update is successful
+- Throws error if update fails
+
+## Examples
+
+Update user's name and address
+
 ```
+POST /users/update
+X-Vuedoo-Domain: domain
+X-Vuedoo-Access-key: user-access-key
 
-A new page is now available at [http://localhost:3000/my-markdown-page](http://localhost:3000/my-markdown-page).
+{
+  "name": "Not John",
+  "address": "123 Bakers street, 3453TN London"
+}
+```

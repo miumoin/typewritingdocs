@@ -1,57 +1,68 @@
 ---
-sidebar_position: 2
+sidebar_position: 3
 ---
 
 # Blocks
 
-Documents are **groups of pages** connected through:
+API references for **Blocks** :
 
-- a **sidebar**
-- **previous/next navigation**
-- **versioning**
+User belongs a `System` identified with access key and system info by `X-Vuedoo-Domain` & `X-Vudeoo-Access-Key` header.
 
-## Create your first Doc
-
-Create a Markdown file at `docs/hello.md`:
-
-```md title="docs/hello.md"
-# Hello
-
-This is my **first Docusaurus document**!
+```
+Typewriting API
+    System1
+        User1
+          Block1
+          Block2
+          ..
+        User2
+        ..
+    System2
+        ..
+    ..
 ```
 
-A new document is now available at [http://localhost:3000/docs/hello](http://localhost:3000/docs/hello).
+## Create a new User
 
-## Configure the Sidebar
+A System that has a unique subdomain — it holds all assets created under that scope.
 
-Docusaurus automatically **creates a sidebar** from the `docs` folder.
+```
+POST /users/new
+X-Vuedoo-Domain: domain
+X-Vuedoo-Access-key: 
 
-Add metadata to customize the sidebar label and position:
-
-```md title="docs/hello.md" {1-4}
----
-sidebar_label: 'Hi!'
-sidebar_position: 3
----
-
-# Hello
-
-This is my **first Docusaurus document**!
+{
+  "name": "John",
+  "email": "john@example.com"
+  "password": "yourpassword"
+}
 ```
 
-It is also possible to create your sidebar explicitly in `sidebars.js`:
+A new user is added to an existing or a new system.
 
-```js title="sidebars.js"
-export default {
-  tutorialSidebar: [
-    'intro',
-    // highlight-next-line
-    'hello',
-    {
-      type: 'category',
-      label: 'Tutorial',
-      items: ['tutorial-basics/create-a-document'],
-    },
-  ],
-};
+# User Profile Update
+
+Updates user information based on provided key-value pair.
+
+## Parameters
+- `key` (string): The field to update (e.g., 'email', 'name', 'password')
+- `value` (any): The new value to set for the specified field
+
+## Returns
+- Promise that resolves when update is successful
+- Throws error if update fails
+
+## Examples
+
+Update user's name and address
+
+```
+POST /users/update
+X-Vuedoo-Domain: domain
+X-Vuedoo-Access-key: user-access-key
+
+{
+  "name": "Not John",
+  "address": "123 Bakers street, 3453TN London"
+}
 ```

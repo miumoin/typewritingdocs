@@ -11,32 +11,29 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Easy to Use',
+    title: 'Backend for Frontend only apps',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Docusaurus was designed from the ground up to be easily installed and
-        used to get your website up and running quickly.
+        Platform independent API supports frontend-only applications across web, mobile, and desktop. Unify your data access layer with a single, consistent interface regardless of your chosen framework or environment.
       </>
     ),
   },
   {
-    title: 'Focus on What Matters',
+    title: 'Functional approach for API',
     Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
     description: (
       <>
-        Docusaurus lets you focus on your docs, and we&apos;ll do the chores. Go
-        ahead and move your docs into the <code>docs</code> directory.
+        Leveraging functional programming principles, we've designed a clean API for CRUD operations and common database actions. Each operation is a pure function, making your code more predictable, testable, and maintainable.
       </>
     ),
-  },
-  {
-    title: 'Powered by React',
+    },
+    {
+    title: 'AI-Ready Business Workflows',
     Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
     description: (
       <>
-        Extend or customize your website layout by reusing React. Docusaurus can
-        be extended while reusing the same header and footer.
+        Typewriting AI is designed to be the backbone of your AI-powered applications. With our API, you can easily integrate AI capabilities into your business workflows, enabling you to build intelligent applications that learn and adapt over time.
       </>
     ),
   },
