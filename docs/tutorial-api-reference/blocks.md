@@ -22,47 +22,225 @@ Typewriting API
     ..
 ```
 
-## Create a new User
+## Create a Block
 
-A System that has a unique subdomain — it holds all assets created under that scope.
+Creates a new block within the authenticated user's system.
 
-```
-POST /users/new
+### Request
+```http
+POST /blocks/new
 X-Vuedoo-Domain: domain
-X-Vuedoo-Access-key: 
+X-Vuedoo-Access-key: access-key
+```
 
+### Parameters
+- `title` (string): Block title
+- `type` (string): Block type identifier
+- `parent` (number): Parent block ID (0 for root level)
+- `content` (string): Main block content
+- `privileges` (array, optional): List of user access permissions
+  - `privilege` (string): Access level ('readonly' or 'write')
+  - `email` (string): User email address
+- `metas` (object, optional): Custom metadata key-value pairs
+
+### Example
+
+```json
 {
-  "name": "John",
-  "email": "john@example.com"
-  "password": "yourpassword"
+  "title": "Meeting Notes",
+  "type": "document",
+  "parent": 0,
+  "content": "Meeting agenda and minutes...",
+  "privileges": [
+    {"privilege": "readonly", "email": "viewer@domain.com"},
+    {"privilege": "write", "email": "editor@domain.com"}
+  ],
+  "metas": {
+    "category": "team-meetings",
+    "priority": "high"
+  }
 }
 ```
 
-A new user is added to an existing or a new system.
+### Response
 
-# User Profile Update
+```json
+{
+  "status": "success",
+  "block": {
+    "id": 12345,
+    "slug": "meeting-notes",
+    "title": "Meeting Notes",
+    "type": "document",
+    "parent": 0,
+    "content": "Meeting agenda and minutes...",
+    "created_at": "2024-01-20T10:30:00Z",
+    "updated_at": "2024-01-20T10:30:00Z",
+    "privileges": [
+      {"privilege": "readonly", "email": "viewer@domain.com"},
+      {"privilege": "write", "email": "editor@domain.com"}
+    ],
+    "metas": {
+      "category": "team-meetings",
+      "priority": "high"
+    },
+    "status": 1
+  }
+}
+```
 
-Updates user information based on provided key-value pair.
+# Update Block
+
+Updates an existing block with new field values.
 
 ## Parameters
-- `key` (string): The field to update (e.g., 'email', 'name', 'password')
-- `value` (any): The new value to set for the specified field
 
-## Returns
-- Promise that resolves when update is successful
-- Throws error if update fails
+- `slug` (string) or `id` (number): Unique identifier for the block to update
+- `fields` (object): Object containing fields to update
 
-## Examples
+## Request Fields
 
-Update user's name and address
+Fields that can be updated:
+- `title` (string) - Block title 
+- `content` (string) - Block content
+- `published` (boolean) - Publication status
+- `category` (string) - Block category
+- `tags` (array) - Array of tag strings
+- `metadata` (object) - Additional metadata
 
-```
-POST /users/update
+### Example
+
+```http
+PATCH /blocks/meeting-notes/update
 X-Vuedoo-Domain: domain
-X-Vuedoo-Access-key: user-access-key
+X-Vuedoo-Access-key: access-key
 
 {
-  "name": "Not John",
-  "address": "123 Bakers street, 3453TN London"
+  "fields": {
+    "title": "Updated Meeting Notes",
+    "content": "New meeting content...",
+    "status": 1,
+    "tags": ["meeting", "team"],
+    "metadata": {
+      "priority": "medium",
+      "status": "in-progress"
+    }
+  }
+}
+```
+
+### Response
+
+```json
+{
+  "status": "success",
+  "block": {
+    "id": 12345,
+    "slug": "updated-meeting-notes",
+    "title": "Updated Meeting Notes",
+    "content": "New meeting content...",
+    "status": 1,
+    "created_at": "2024-01-20T10:30:00Z",
+    "updated_at": "2024-01-20T11:45:00Z",
+    "tags": ["meeting", "team"],
+    "metadata": {
+      "priority": "medium", 
+      "status": "in-progress"
+    }
+  }
+}
+```
+
+
+# Get Blocks
+
+## Parameters
+
+- `parent` _(optional)_: The parent element to search blocks within. If not provided, searches the entire document.
+- `type`: The block type to filter by.
+
+## Request
+```http
+GET /blocks
+Content-Type: application/json
+X-Vuedoo-Domain: domain
+X-Vuedoo-Access-key: access-key
+{
+  "type": "document",
+  "parent": 123
+}
+```
+
+## Response
+
+```json
+{
+  "status": "success",
+  "blocks": [
+    {
+      "id": 12345,
+      "slug": "meeting-notes",
+      "title": "Meeting Notes",
+      "type": "document",
+      "parent": 123,
+      "content": "Meeting content...",
+      "created_at": "2024-01-20T10:30:00Z",
+      "updated_at": "2024-01-20T10:30:00Z"
+    },
+    {
+      "id": 12346,
+      "slug": "project-plan",
+      "title": "Project Plan",
+      "type": "document",
+      "parent": 123,
+      "content": "Project details...",
+      "created_at": "2024-01-20T11:00:00Z",
+      "updated_at": "2024-01-20T11:00:00Z"
+    }
+  ]
+}
+```
+
+
+# Get Block
+
+Retrieves a single block by its identifier.
+
+## Parameters
+
+- `slug` (string) or `id` (number): Unique identifier for the block
+- `parent` (number, optional): Parent block ID
+
+## Request
+```http
+GET /blocks/{slug}
+Content-Type: application/json
+X-Vuedoo-Domain: domain
+X-Vuedoo-Access-key: access-key
+```
+
+### Example
+
+```http
+GET /blocks/meeting-notes
+X-Vuedoo-Domain: domain
+X-Vuedoo-Access-key: access-key
+```
+
+## Response
+
+```json
+{
+  "status": "success",
+  "block": {
+    "id": 12345,
+    "slug": "meeting-notes",
+    "title": "Meeting Notes",
+    "type": "document",
+    "parent": 0,
+    "content": "Meeting content...",
+    "created_at": "2024-01-20T10:30:00Z",
+    "updated_at": "2024-01-20T10:30:00Z"
+  }
 }
 ```

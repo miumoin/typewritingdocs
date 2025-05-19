@@ -37,19 +37,15 @@ X-Vuedoo-Access-key:
 
 A new user is added to an existing or a new system.
 
-# User Profile Update
+# Update a user
 
 Updates user information based on provided key-value pair.
 
-## Parameters
+### Parameters
 - `key` (string): The field to update (e.g., 'email', 'name', 'password')
 - `value` (any): The new value to set for the specified field
 
-## Returns
-- Promise that resolves when update is successful
-- Throws error if update fails
-
-## Examples
+### Examples
 
 Update user's name and address
 
@@ -63,3 +59,64 @@ X-Vuedoo-Access-key: user-access-key
   "address": "123 Bakers street, 3453TN London"
 }
 ```
+
+It returns:
+
+```
+{
+  "status": "success",
+  "user": {
+    "email": "Not John",
+    "address": "123 Bakers street, 3453TN London"
+  }
+}
+```
+
+## Signup and Login
+
+Both signup and login follow a two-step authentication process:
+
+1. Request authentication code
+2. Verify code to complete authentication
+
+### Step 1: Request Code
+
+```
+POST /users/auth/request
+X-Vuedoo-Domain: domain
+X-Vuedoo-Access-key: 
+
+{
+  "email": "john@example.com"
+}
+```
+
+This generates a unique code and sends it to the user's email.
+
+### Step 2: Verify Code
+
+```
+POST /users/auth/verify
+X-Vuedoo-Domain: domain
+X-Vuedoo-Access-key: 
+
+{
+  "email": "john@example.com",
+  "code": "123456"
+}
+```
+
+Upon successful verification, returns:
+
+```json
+{
+  "status": "success",
+  "access_token": "user-access-key-xxx",
+  "user": {
+    "email": "john@example.com",
+    "name": "John"
+  }
+}
+```
+
+The `access_token` should be used as `X-Vuedoo-Access-key` for authenticated requests.
