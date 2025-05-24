@@ -32,3 +32,8 @@ This technology extends to:
 - Feedback collection
 
 Transform your feedback collection process with Typewriting AI - where every survey becomes a meaningful conversation.
+
+## Try It Yourself
+- Experience conversational surveys at [ask.typewriting.ai](https://ask.typewriting.ai)
+- Learn how to create your own with our [tutorials](https://docs.typewriting.ai/docs/category/typewriting-ai-tutorial)
+- Join our community on [Discord](https://discord.gg/tqbH6Svz8k) to share experiences and get support

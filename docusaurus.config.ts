@@ -86,12 +86,12 @@ const config: Config = {
         },
         {to: '/blog', label: 'Blog', position: 'left'},
         {
-          href: 'https://typewriting.ai',
+          href: 'https://ask.typewriting.ai',
           label: 'Home',
           position: 'right',
         },
         {
-          href: 'https://github.com/typewriting/typewriting-api',
+          href: 'https://github.com/miumoin',
           label: 'GitHub',
           position: 'right',
         },
